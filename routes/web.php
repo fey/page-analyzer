@@ -18,3 +18,4 @@ Route::get('/', function () {
 });
 
 Route::resource('domains', 'DomainController');
+Route::resource('domains.checks', 'DomainCheckController');

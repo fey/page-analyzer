@@ -14,11 +14,6 @@ class DomainController extends Controller
         return view('domains.index', compact('domains'));
     }
 
-    public function create()
-    {
-        abort(404);
-    }
-
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -50,21 +45,9 @@ class DomainController extends Controller
             return abort(404);
         }
 
-        return view('domains.show', compact('domain'));
-    }
+        $checks = DB::table('domain_checks')->where('domain_id', $id)->orderByDesc('created_at')->get();
+        $lastCheck = optional(array_first($checks))->created_at ?? 'unknown';
 
-    public function edit($id)
-    {
-        abort(404);
-    }
-
-    public function update(Request $request, $id)
-    {
-        abort(404);
-    }
-
-    public function destroy($id)
-    {
-        abort(404);
+        return view('domains.show', compact('domain', 'checks', 'lastCheck'));
     }
 }
