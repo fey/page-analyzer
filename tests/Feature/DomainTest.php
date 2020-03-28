@@ -22,7 +22,7 @@ class DomainTest extends TestCase
         $fakeUrl = $this->faker->url;
 
         $response = $this->post(route('domains.store'), [
-                'domain' => $fakeUrl,
+            'domain' => $fakeUrl,
         ]);
 
         $expected = parse_url($fakeUrl, PHP_URL_HOST);

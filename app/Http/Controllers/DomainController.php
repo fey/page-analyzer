@@ -46,7 +46,7 @@ class DomainController extends Controller
         }
 
         $checks = DB::table('domain_checks')->where('domain_id', $id)->orderByDesc('created_at')->get();
-        $lastCheck = optional(array_first($checks))->created_at ?? 'unknown';
+        $lastCheck = array_first($checks);
 
         return view('domains.show', compact('domain', 'checks', 'lastCheck'));
     }

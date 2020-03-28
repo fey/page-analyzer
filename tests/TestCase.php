@@ -13,11 +13,11 @@ abstract class TestCase extends BaseTestCase
     use RefreshDatabase;
 
 
-    protected function createFakeDomain()
+    protected function createFakeDomain(?string $url)
     {
         return \DB::table('domains')
             ->insertGetId([
-                'name' => $this->faker->url,
+                'name' => $url ?? $this->faker->url,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

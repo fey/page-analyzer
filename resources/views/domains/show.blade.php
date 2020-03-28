@@ -2,13 +2,18 @@
 @php
 /**
  * @var stdClass $domain
+ * @var stdClass $lastCheck
  */
 @endphp
 @section('content')
     <h5 class="card-title">{{ $domain->name }}</h5>
     <p class="card-text">
         Added at: {{ $domain->created_at }}<br>
-        Last check: {{ $lastCheck }}
+        Last check: <br>
+        @if($lastCheck)
+        Code: {{ $lastCheck->status_code }}
+        Date: {{ $lastCheck->created_at }}
+        @endif
     </p>
     <form action="{{ route('domains.checks.store', $domain->id) }}" METHOD="post">
         @csrf
@@ -21,14 +26,16 @@
         @else
             <thead>
             <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Checked at</th>
+                <th>ID</th>
+                <th>Status code</th>
+                <th>Checked at</th>
             </tr>
             </thead>
             <tbody>
             @foreach($checks as $check)
                 <tr>
-                    <th>{{ $check->id }}</th>
+                    <td>{{ $check->id }}</td>
+                    <td>{{ $check->status_code }}</td>
                     <td>{{ $check->created_at }}</td>
                 </tr>
             @endforeach

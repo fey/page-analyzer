@@ -3,12 +3,18 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use Http;
 
 class DomainCheckTest extends TestCase
 {
     public function testStore()
     {
-        $domainId = $this->createFakeDomain();
+        $fakeDomain = $this->faker->url;
+        Http::fake([
+            $fakeDomain => Http::response('', 200)
+        ]);
+
+        $domainId = $this->createFakeDomain($fakeDomain);
 
         $response = $this->post(route('domains.checks.store', $domainId));
 
