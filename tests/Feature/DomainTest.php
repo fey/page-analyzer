@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class DomainTest extends TestCase
@@ -13,7 +14,7 @@ class DomainTest extends TestCase
 
     public function testIndex()
     {
-        $response = $this->get('/');
+        $response = $this->get(route('domains.index'));
 
         for ($i = 0; $i < 5; $i += 1) {
             $this->createFakeDomain();
@@ -24,15 +25,13 @@ class DomainTest extends TestCase
 
     public function testStore()
     {
-        $domain = $this->faker->domainName;
+        $domain = $this->faker->url;
 
         $response = $this->post(route('domains.store'), [
             'domain' => $domain
         ]);
 
-        \Log::debug($response->content());
-
-        $this->assertDatabaseHas('domains', ['domain' => $domain]);
+        $this->assertDatabaseHas('domains', ['name' => parse_url($domain, PHP_URL_HOST)]);
         $response->assertRedirect();
     }
 
