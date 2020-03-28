@@ -8,6 +8,8 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     <link rel="stylesheet" href="/css/app.css">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-param" content="_token" />
 </head>
 <body>
 <div class="container">
