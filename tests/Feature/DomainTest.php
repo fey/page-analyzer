@@ -2,16 +2,10 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class DomainTest extends TestCase
 {
-    use WithFaker;
-    use RefreshDatabase;
-
     public function testIndex()
     {
         $response = $this->get(route('domains.index'));
@@ -25,13 +19,15 @@ class DomainTest extends TestCase
 
     public function testStore()
     {
-        $domain = $this->faker->url;
+        $fakeUrl = $this->faker->url;
 
         $response = $this->post(route('domains.store'), [
-            'domain' => $domain
+                'domain' => $fakeUrl,
         ]);
 
-        $this->assertDatabaseHas('domains', ['name' => parse_url($domain, PHP_URL_HOST)]);
+        $expected = parse_url($fakeUrl, PHP_URL_HOST);
+
+        $this->assertDatabaseHas('domains', ['name' => $expected]);
         $response->assertRedirect();
     }
 
@@ -44,12 +40,18 @@ class DomainTest extends TestCase
         $response->assertOk();
     }
 
-    private function createFakeDomain()
+    public function testShowWithChecks()
     {
-        return \DB::table('domains')->insertGetId([
-            'name' => $this->faker->domainName,
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
+        $domainId = $this->createFakeDomain();
+
+        for ($i = 0; $i < 5; $i += 1) {
+            $this->createFakeChecks($domainId);
+        }
+
+        $response = $this->get(
+            route('domains.show', $domainId)
+        );
+
+        $response->assertOk();
     }
 }
