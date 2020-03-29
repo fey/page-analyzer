@@ -4,7 +4,7 @@
     <form action="{{ route('domains.store') }}" class="form-inline" METHOD="POST">
         @csrf
         <input
-            name="domain"
+            name="domain[name]"
             type="url"
             class="form-control mb-2 mr-sm-2"
             id="domain-input"

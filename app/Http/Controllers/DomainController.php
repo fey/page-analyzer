@@ -21,8 +21,10 @@ class DomainController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, ['domain' => 'required|url']);
-        $domainName = strtolower(parse_url($request->domain, PHP_URL_HOST));
+        $this->validate($request, ['domain.name' => 'required|url']);
+        $domainName = $this->getDomainFromUrl(
+            $request->input('domain.name')
+        );
 
         $domain = DB::table('domains')->where('name', $domainName)->first();
 
@@ -53,5 +55,10 @@ class DomainController extends Controller
         $lastCheck = array_first($checks);
 
         return view('domains.show', compact('domain', 'checks', 'lastCheck'));
+    }
+
+    private function getDomainFromUrl(string $url): string
+    {
+        return strtolower(parse_url($url, PHP_URL_HOST));
     }
 }
