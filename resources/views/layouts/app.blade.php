@@ -14,9 +14,7 @@
 <body>
 <div class="container">
     <div class="row justify-content-center align-items-center min-vh-100">
-
-        <div class="col-md-auto w-50 h-50">
-
+        <div class="col-md-auto w-100 h-50">
             @include('flash::message')
             <ul class="nav">
                 <li class="nav-item">
@@ -36,7 +34,6 @@
             </div>
         </div>
     </div>
-
 </div>
 </body>
 </html>

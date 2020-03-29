@@ -28,6 +28,9 @@
             <tr>
                 <th>ID</th>
                 <th>Status code</th>
+                <th>H1 tag</th>
+                <th>Description</th>
+                <th>Keywords</th>
                 <th>Checked at</th>
             </tr>
             </thead>
@@ -36,6 +39,9 @@
                 <tr>
                     <td>{{ $check->id }}</td>
                     <td>{{ $check->status_code }}</td>
+                    <td>{{ $check->h1 }}</td>
+                    <td>{{ $check->description }}</td>
+                    <td>{{ $check->keywords }}</td>
                     <td>{{ $check->created_at }}</td>
                 </tr>
             @endforeach

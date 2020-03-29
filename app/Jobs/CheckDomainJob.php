@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use DiDom\Document;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -29,9 +30,17 @@ class CheckDomainJob implements ShouldQueue
         $domain = json_decode($this->domain);
         $response = Http::get($domain->name);
 
+        $document = new Document($response->body());
+        $h1 = $document->first('h1');
+        $description = $document->first('meta[name="description"]');
+        $keywords = $document->first('meta[name="keywords"]');
+
         $check = [
             'domain_id' => $domain->id,
             'status_code' => $response->status(),
+            'keywords' => optional($keywords)->attr('content'),
+            'h1' => optional($h1)->text(),
+            'description' => optional($description)->attr('content'),
             'created_at' => now(),
             'updated_at' => now(),
         ];

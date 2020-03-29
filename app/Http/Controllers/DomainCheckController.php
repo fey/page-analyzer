@@ -18,7 +18,7 @@ class DomainCheckController extends Controller
 
         CheckDomainJob::dispatch(json_encode($domain));
 
-        flash()->success('Successfully checked!');
+        flash()->success('Successfully started!');
         return back();
     }
 }
