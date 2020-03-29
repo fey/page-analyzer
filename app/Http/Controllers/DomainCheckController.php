@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\CheckDomainJob;
 use DB;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 
 class DomainCheckController extends Controller
 {
@@ -16,16 +16,7 @@ class DomainCheckController extends Controller
             abort(404);
         }
 
-        $response = Http::get("{$domain->name}");
-
-        $check = [
-            'domain_id' => $domain->id,
-            'status_code' => $response->status(),
-            'created_at' => now(),
-            'updated_at' => now(),
-        ];
-
-        DB::table('domain_checks')->insert($check);
+        CheckDomainJob::dispatch(json_encode($domain));
 
         flash()->success('Successfully checked!');
         return back();
