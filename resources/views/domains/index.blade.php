@@ -1,7 +1,8 @@
 @extends('layouts.app')
 @php
 /**
- * @var array[]|stdClass $domains
+ * @var \Illuminate\Support\Collection|stdClass[] $domains
+ * @var \Illuminate\Support\Collection|stdClass[] $checks
  */
 @endphp
 @section('content')
@@ -10,6 +11,7 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">Name</th>
+            <th scope="col">Code</th>
         </tr>
         </thead>
         <tbody>
@@ -17,6 +19,7 @@
             <tr>
                 <th>{{ $domain->id }}</th>
                 <td><a href="{{ route('domains.show', $domain->id) }}">{{ $domain->name }}</a></td>
+                <td>{{ optional($checks->get($domain->id))->status_code ?? "Unknown" }}</td>
             </tr>
         @endforeach
         </tbody>

@@ -11,7 +11,17 @@ class DomainController extends Controller
     {
         $domains = DB::table('domains')->get();
 
-        return view('domains.index', compact('domains'));
+        $checks = DB::table('domain_checks')
+            ->distinct()
+            ->select('domain_id', 'status_code')
+            ->groupBy('domain_id')
+            ->orderByDesc('created_at')
+            ->get();
+
+        return view('domains.index', [
+            'domains' => $domains,
+            'checks' => $checks->keyBy('domain_id')
+        ]);
     }
 
     public function store(Request $request)
@@ -45,7 +55,10 @@ class DomainController extends Controller
             return abort(404);
         }
 
-        $checks = DB::table('domain_checks')->where('domain_id', $id)->orderByDesc('created_at')->get();
+        $checks = DB::table('domain_checks')
+            ->where('domain_id', $id)
+            ->orderByDesc('created_at')
+            ->get();
         $lastCheck = array_first($checks);
 
         return view('domains.show', compact('domain', 'checks', 'lastCheck'));
