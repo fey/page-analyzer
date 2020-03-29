@@ -12,9 +12,7 @@ class DomainController extends Controller
         $domains = DB::table('domains')->get();
 
         $checks = DB::table('domain_checks')
-            ->select(DB::raw('distinct on (domain_id) domain_id, status_code, created_at'))
-            ->orderByDesc('domain_id')
-            ->orderByDesc('created_at')
+            ->orderBy('created_at')
             ->get();
 
         return view('domains.index', [
