@@ -8,11 +8,11 @@ class DomainTest extends TestCase
 {
     public function testIndex()
     {
-        $response = $this->get(route('domains.index'));
-
         for ($i = 0; $i < 5; $i += 1) {
             $this->createFakeDomain();
         }
+
+        $response = $this->get(route('domains.index'));
 
         $response->assertStatus(200);
     }
