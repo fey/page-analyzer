@@ -11,9 +11,7 @@ class DomainController extends Controller
     {
         $domains = DB::table('domains')->get();
 
-        $checks = DB::table('domain_checks')
-            ->orderBy('created_at')
-            ->get();
+        $checks = DB::table('domain_checks')->orderBy('created_at')->get();
 
         return view('domains.index', [
             'domains' => $domains,
@@ -30,7 +28,6 @@ class DomainController extends Controller
 
         if ($domain) {
             flash('Domain already exists');
-
             return redirect()->route('domains.show', $domain->id);
         }
 
@@ -52,10 +49,7 @@ class DomainController extends Controller
             return abort(404);
         }
 
-        $checks = DB::table('domain_checks')
-            ->where('domain_id', $id)
-            ->orderByDesc('created_at')
-            ->get();
+        $checks = DB::table('domain_checks')->where('domain_id', $id)->orderByDesc('created_at')->get();
         $lastCheck = array_first($checks);
 
         return view('domains.show', compact('domain', 'checks', 'lastCheck'));
