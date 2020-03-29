@@ -23,25 +23,25 @@ class DomainController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, [
-                'domain' => 'required|url',
-        ]);
-        $domain = strtolower(parse_url($request->domain, PHP_URL_HOST));
+        $this->validate($request, ['domain' => 'required|url']);
+        $domainName = strtolower(parse_url($request->domain, PHP_URL_HOST));
 
-        $isExistsDomain = DB::table('domains')->where('name', $domain)->exists();
+        $domain = DB::table('domains')->where('name', $domainName)->first();
 
-        if ($isExistsDomain === false) {
-            DB::table('domains')->insert([
-                    'name' => $domain,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-            ]);
-            flash('Success created')->success();
-        } else {
-            flash('Domain already exists')->warning();
+        if ($domain) {
+            flash('Domain already exists');
+
+            return redirect()->route('domains.show', $domain->id);
         }
 
-        return back();
+        $id = DB::table('domains')->insertGetId([
+            'name' => $domainName,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        flash('Success created')->success();
+
+        return redirect()->route('domains.show', $id);
     }
 
     public function show($id)
