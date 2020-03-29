@@ -12,9 +12,8 @@ class DomainController extends Controller
         $domains = DB::table('domains')->get();
 
         $checks = DB::table('domain_checks')
-            ->distinct()
-            ->select('domain_id', 'status_code')
-            ->groupBy('domain_id')
+            ->select(DB::raw('distinct on (domain_id) domain_id, status_code, created_at'))
+            ->orderByDesc('domain_id')
             ->orderByDesc('created_at')
             ->get();
 
