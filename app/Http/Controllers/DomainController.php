@@ -11,7 +11,15 @@ class DomainController extends Controller
     {
         $domains = DB::table('domains')->get();
 
-        $checks = DB::table('domain_checks')->orderBy('created_at')->get();
+        $checks =         $checks = DB::table('domain_checks')
+            ->select(['domain_checks.domain_id', 'status_code', 'domain_checks.created_at'])
+            ->join(DB::raw('(
+                        select domain_id, MAX(id) as id
+                        from domain_checks
+                        GROUP BY domain_id
+                    ) as temp'), 'domain_checks.id', '=', 'temp.id')
+            ->join('domains', 'domain_checks.domain_id', '=', 'domains.id')
+            ->get();
 
         return view('domains.index', [
             'domains' => $domains,
