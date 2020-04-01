@@ -15,13 +15,8 @@ class DomainCheckController extends Controller
             abort(404);
         }
 
-        try {
-            CheckDomainJob::dispatch(json_encode($domain));
-            flash()->success(__('started'));
-        } catch (\Exception $exception) {
-            flash()->error(__('something_wrong'));
-            \Log::error($exception->getMessage(), $exception->getTrace());
-        }
+        CheckDomainJob::dispatch(json_encode($domain));
+        flash()->success(__('started'));
 
         return back();
     }
