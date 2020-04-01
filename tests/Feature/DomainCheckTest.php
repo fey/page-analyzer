@@ -25,7 +25,7 @@ class DomainCheckTest extends TestCase
         $fakeDomain->id = \DB::table('domains')
             ->insertGetId((array)$fakeDomain);
 
-        $response = $this->post(route('domains.checks.store', $fakeDomain));
+        $response = $this->post(route('domains.checks.store', $fakeDomain->id));
 
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();

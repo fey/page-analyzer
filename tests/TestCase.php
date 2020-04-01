@@ -11,25 +11,4 @@ abstract class TestCase extends BaseTestCase
     use CreatesApplication;
     use WithFaker;
     use RefreshDatabase;
-
-
-    protected function createFakeDomain(?string $url = null)
-    {
-        return \DB::table('domains')
-            ->insertGetId([
-                'name' => $url ?? $this->faker->url,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-    }
-
-    protected function createFakeChecks($domainId)
-    {
-        return \DB::table('domain_checks')
-            ->insertGetId([
-                'domain_id' => $domainId,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-    }
 }

@@ -4,12 +4,15 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 
+use function Tests\Helpers\createFakeChecks;
+use function Tests\Helpers\createFakeDomain;
+
 class DomainTest extends TestCase
 {
     public function testIndex()
     {
         for ($i = 0; $i < 5; $i += 1) {
-            $this->createFakeDomain();
+            createFakeDomain($this->faker->url);
         }
 
         $response = $this->get(route('domains.index'));
@@ -35,7 +38,7 @@ class DomainTest extends TestCase
 
     public function testShow()
     {
-        $id = $this->createFakeDomain();
+        $id = createFakeDomain($this->faker->url);
 
         $response = $this->get(route('domains.show', $id));
 
@@ -44,10 +47,10 @@ class DomainTest extends TestCase
 
     public function testShowWithChecks()
     {
-        $domainId = $this->createFakeDomain();
+        $domainId = createFakeDomain($this->faker->url);
 
         for ($i = 0; $i < 5; $i += 1) {
-            $this->createFakeChecks($domainId);
+            createFakeChecks($domainId);
         }
 
         $response = $this->get(
