@@ -1,0 +1,18 @@
+{
+    "last_check": "Last check",
+    "status_code": "Status code",
+    "name": "Name",
+    "unknown": "Unknown",
+    "added_at": "Added at",
+    "date": "Date",
+    "start_check": "Start check",
+    "no_checks": "No checks yet",
+    "submit": "Submit",
+    "page_analyzer": "Page Analyzer",
+    "home": "Home",
+    "domains": "Domains",
+    "something_wrong": "Something was wrong",
+    "started": "Start checking",
+    "domain_exists": "Domain already exists",
+    "success": "Success"
+}

@@ -11,6 +11,6 @@
             placeholder="https://www.example.com"
             required
             autocomplete>
-        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+        <button type="submit" class="btn btn-primary mb-2">@lang('submit')</button>
     </form>
 @endsection

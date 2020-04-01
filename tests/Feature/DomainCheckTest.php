@@ -15,13 +15,22 @@ class DomainCheckTest extends TestCase
             $fakeDomain => Http::response($fakeContent, 200)
         ]);
 
-        $domainId = $this->createFakeDomain($fakeDomain);
 
-        $response = $this->post(route('domains.checks.store', $domainId));
+        $fakeDomain = (object)[
+            'name' => $fakeDomain,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ];
+
+        $fakeDomain->id = \DB::table('domains')
+            ->insertGetId((array)$fakeDomain);
+
+        $response = $this->post(route('domains.checks.store', $fakeDomain));
 
         $response->assertRedirect();
+        $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('domain_checks', [
-            'domain_id'     => $domainId,
+            'domain_id'     => $fakeDomain->id,
             'description'   => 'Seo Page analyzer',
             'keywords'      => 'hexlet php laravel project',
             'h1'            => 'Page Analyzer'

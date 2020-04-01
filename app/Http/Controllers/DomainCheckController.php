@@ -17,9 +17,9 @@ class DomainCheckController extends Controller
 
         try {
             CheckDomainJob::dispatch(json_encode($domain));
-            flash()->success('Successfully started!');
+            flash()->success(__('started'));
         } catch (\Exception $exception) {
-            flash()->error('Something was wrong');
+            flash()->error(__('something_wrong'));
             \Log::error($exception->getMessage(), $exception->getTrace());
         }
 

@@ -29,7 +29,7 @@ class DomainController extends Controller
         $domain = DB::table('domains')->where('name', $domainName)->first();
 
         if ($domain) {
-            flash('Domain already exists');
+            flash(__('domain_exists'));
             return redirect()->route('domains.show', $domain->id);
         }
 
@@ -38,7 +38,7 @@ class DomainController extends Controller
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-        flash('Success created')->success();
+        flash(__('success'))->success();
 
         return redirect()->route('domains.show', $id);
     }

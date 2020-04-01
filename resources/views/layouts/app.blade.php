@@ -21,15 +21,15 @@
             @include('flash::message')
             <ul class="nav">
                 <li class="nav-item">
-                    <a class="nav-link active" href="/">Home</a>
+                    <a class="nav-link active" href="/">@lang('home')</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('domains.index') }}">Domains</a>
+                    <a class="nav-link" href="{{ route('domains.index') }}">@lang('domains')</a>
                 </li>
             </ul>
             <div class="card">
                 <div class="card-header">
-                    <h1 class="h5 card-title">Page Analyzer</h1>
+                    <h1 class="h5 card-title">@lang('page_analyzer')</h1>
                 </div>
                 <div class="card-body">
                     @yield('content')

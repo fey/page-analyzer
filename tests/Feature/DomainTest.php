@@ -14,7 +14,7 @@ class DomainTest extends TestCase
 
         $response = $this->get(route('domains.index'));
 
-        $response->assertStatus(200);
+        $response->assertOk();
     }
 
     public function testStore()
@@ -28,7 +28,9 @@ class DomainTest extends TestCase
         $expected = parse_url($fakeUrl, PHP_URL_HOST);
 
         $this->assertDatabaseHas('domains', ['name' => $expected]);
+
         $response->assertRedirect();
+        $response->assertSessionHasNoErrors();
     }
 
     public function testShow()
