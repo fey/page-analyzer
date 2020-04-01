@@ -11,7 +11,12 @@ class DomainController extends Controller
     {
         $domains = DB::table('domains')->get();
 
-        $checks =         $checks = DB::table('domain_checks')
+        $nullCheck = (object)[
+            'created_at' => __('unknown'),
+            'status_code' => __('unknown')
+        ];
+
+        $checks = $checks = DB::table('domain_checks')
             ->select(['domain_checks.domain_id', 'status_code', 'domain_checks.created_at'])
             ->join(DB::raw('(
                         select domain_id, MAX(id) as id
@@ -23,7 +28,8 @@ class DomainController extends Controller
 
         return view('domains.index', [
             'domains' => $domains,
-            'checks' => $checks->keyBy('domain_id')
+            'checks' => $checks->keyBy('domain_id'),
+            'nullCheck' => $nullCheck
         ]);
     }
 

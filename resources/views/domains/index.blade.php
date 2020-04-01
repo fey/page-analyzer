@@ -3,6 +3,7 @@
 /**
  * @var \Illuminate\Support\Collection|stdClass[] $domains
  * @var \Illuminate\Support\Collection|stdClass[] $checks
+ * @var stdClass $nullCheck
  */
 @endphp
 @section('content')
@@ -20,8 +21,8 @@
             <tr>
                 <th>{{ $domain->id }}</th>
                 <td><a href="{{ route('domains.show', $domain->id) }}">{{ $domain->name }}</a></td>
-                <td>{{ optional($checks->get($domain->id))->status_code ?? __('unknown') }}</td>
-                <td>{{ optional($checks->get($domain->id))->created_at ?? __('unknown') }}</td>
+                <td>{{ $checks->get($domain->id, $nullCheck)->status_code }}</td>
+                <td>{{ $checks->get($domain->id, $nullCheck)->created_at }}</td>
             </tr>
         @endforeach
         </tbody>
