@@ -10,22 +10,20 @@ class DomainController extends Controller
     public function index()
     {
         $domains = DB::table('domains')->get();
-
-        $nullCheck = (object)[
-            'created_at' => __('unknown'),
-            'status_code' => __('unknown')
-        ];
-
         $checks = DB::table('domain_checks')
             ->distinct('domain_id')
             ->orderBy('domain_id')
-            ->latest()
-            ->get();
+            ->latest()->get()
+            ->keyBy('domain_id');
 
         return view('domains.index', [
             'domains' => $domains,
-            'checks' => $checks->keyBy('domain_id'),
-            'nullCheck' => $nullCheck
+            'checks' => $domains->keyBy('id')
+                ->map(fn($domain) => $checks->get($domain->id, (object)[
+                    'domain_id'  => $domain->id,
+                    'created_at' => __('unknown'),
+                    'status_code' => __('unknown')
+                ])),
         ]);
     }
 
