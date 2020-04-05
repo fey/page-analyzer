@@ -13,7 +13,7 @@ function createFakeDomain(string $url): int
         ]);
 }
 
-function createFakeChecks(int $domainId): int
+function createFakeCheck(int $domainId): int
 {
         return DB::table('domain_checks')
             ->insertGetId([

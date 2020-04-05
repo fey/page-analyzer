@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 
-use function Tests\Helpers\createFakeChecks;
+use function Tests\Helpers\createFakeCheck;
 use function Tests\Helpers\createFakeDomain;
 
 class DomainTest extends TestCase
@@ -50,7 +50,7 @@ class DomainTest extends TestCase
         $domainId = createFakeDomain($this->faker->url);
 
         for ($i = 0; $i < 5; $i += 1) {
-            createFakeChecks($domainId);
+            createFakeCheck($domainId);
         }
 
         $response = $this->get(
