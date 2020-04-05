@@ -16,14 +16,10 @@ class DomainController extends Controller
             'status_code' => __('unknown')
         ];
 
-        $checks = $checks = DB::table('domain_checks')
-            ->select(['domain_checks.domain_id', 'status_code', 'domain_checks.created_at'])
-            ->join(DB::raw('(
-                        select domain_id, MAX(id) as id
-                        from domain_checks
-                        GROUP BY domain_id
-                    ) as temp'), 'domain_checks.id', '=', 'temp.id')
-            ->join('domains', 'domain_checks.domain_id', '=', 'domains.id')
+        $checks = DB::table('domain_checks')
+            ->distinct('domain_id')
+            ->orderBy('domain_id')
+            ->latest()
             ->get();
 
         return view('domains.index', [
