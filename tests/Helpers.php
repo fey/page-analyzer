@@ -1,6 +1,7 @@
 <?php
 
 namespace Tests\Helpers;
+
 use DB;
 
 function createFakeDomain(string $url): int
