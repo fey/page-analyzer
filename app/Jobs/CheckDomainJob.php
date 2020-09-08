@@ -6,6 +6,8 @@ use DiDom\Document;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Http;
@@ -28,7 +30,13 @@ class CheckDomainJob implements ShouldQueue
     public function handle()
     {
         $domain = json_decode($this->domain);
-        $response = Http::get($domain->name);
+
+        try {
+            $response = Http::get($domain->name);
+        } catch (ConnectionException | RequestException $exception) {
+            flash('Could not check url');
+            return false;
+        }
 
         $document = new Document($response->body());
         $h1 = $document->first('h1');
